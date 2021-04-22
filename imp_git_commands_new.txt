@@ -12,3 +12,19 @@ git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/pritesh-ugrankar/learngo.git
 git push -u origin main
+
+##############################33
+If you are trying to run git push origin main from two different directories
+where the remote repository is the same, you will get the error below:
+fatal: refusing to merge unrelated histories
+
+Example is shown below:
+pritesh@pavilion:~$ git pull origin main
+From https://github.com/pritesh-ugrankar/ubuntu_imp_stuff
+ * branch            main       -> FETCH_HEAD
+fatal: refusing to merge unrelated histories
+
+Run the following command:
+git pull origin main --allow-unrelated-histories
+
+This will fix the issue
