@@ -1,0 +1,62 @@
+#How to install plenv:
+
+#Download from git.
+git clone https://github.com/tokuhirom/plenv.git ~/.plenv
+
+
+#Run the commands shown below to include plenv in the path.
+
+echo 'export PATH="$HOME/.plenv/bin:$PATH"' >> .bashrc 
+
+echo 'eval "$(plenv init -)"' >>.bashrc 
+
+
+#install perl-build that makes perl installation easier in plenv.
+
+git clone https://github.com/tokuhirom/Perl-Build.git ~/.plenv/plugins/perl-build/
+
+#Plenv command cheatsheet:
+
+#find out which version of plenv is installed.
+
+plenv --version
+
+#Which all perl versions are available for installation.
+plenv install --list
+
+#Which all perl versions are currently installed:
+#Current version is marked by an asterisk:
+plenv versions
+
+#Which perl version is currently available:
+plenv version
+
+
+#Install perl version 5.32.1 WITH multithreading support:
+plenv install 5.32.1 -Dusethreads
+
+#ALWAYS run rehash after installing a perl version through plenv.
+plenv rehash 
+
+
+#Install perl version 5.16.3 WITH multithreading support:
+plenv install 5.16.3 -Dusethreads
+
+#ALWAYS run rehash after installing a perl version through plenv.
+plenv rehash 
+
+#Install perl version 5.26.3 WITH multithreading support:
+plenv install 5.26.3 -Dusethreads
+
+#ALWAYS run rehash after installing a perl version through plenv.
+plenv rehash 
+
+#Set local perl version to 5.16.3
+plenv local 5.16.3
+
+#Set local perl version to 5.26.3
+#Note: this will change perl version set to 5.16.3 in the earlier command.
+plenv local 5.26.3
+
+#Install cpanm for the current version:
+plenv install-cpanm

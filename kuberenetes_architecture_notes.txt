@@ -1,0 +1,42 @@
+K8s Architecture:
+Nodes:- A node is a machine, physical or virtual on which K8s is installed. A node is a worker machine and that's where, containers
+will be launched by k8s. It was also known as Minions in the past so these (Nodes/Minions) terms are used interchangeably.
+But, what happens if the node on which the application is running fails? The application will go down, so we need to have more than
+one node.
+
+Cluster:- A cluster is a set of Nodes groups together. This way even if your application fails, it can still be available on the other
+node(s). Having multiple nodes also helps in load sharing. Now, let's say if we have a cluster running, we need something to manage
+the cluster, where the information about the cluster memebers is stored, we also need something to monitor the nodes. When a node fails,
+how do we move the workload from the failed node to another worker node? That is where the Master comes in.
+
+Master:- The Master Node, is another node in which Kubernetes is installed and is configured as a Master. The Master watches over the
+rest of the "worker" nodes in the cluster and is responsible for the actual orchestration of containers on the "worker" nodes.
+
+When we install Kuberenetes on a system, we are installing the following components:
+
+API Server:- Acts as a frontend for K8s. The users, management devices, cli interfaces, all talk to the API Server to interact with
+the K8s Cluster.
+
+etcd Key Store:- It is a distributed, reliable key value store used by K8s to store all data used by k8s to manage the cluster. 
+When you have multiple worker nodes and multiple masters in your cluster, etcd stores all that information on all the nodes in the
+cluster in a distributed manner.Etcd is responsible for implementing logs within the cluster to ensure that there are no conflicts
+between the masters.
+
+Scheduler:- It is repsonsible for distributing work or containers across multiple nodes. It looks for newly created containers and
+assigns them to nodes.
+
+Controllers:- This is the brain behind the orchestration. They are responsible for noticing or responding when nodes, containers, or
+end points go down. The controllers make decisions to bring up new containers in such cases.
+
+Container Run time:- This is the underlying software that is used to run containers, for example, Docker.
+
+Kubelet:- Is the agent that runs on each node in the cluster. The agent makes sure that the containers are running on the nodes as expected.
+
+
+Master Nodes Vs Worker Nodes:
+Master Server has the Kube API Server and that is what makes it a master. It also has the etcd, controller and sheduler.
+Similarly, the worker node has a kubelet agent that is responsible for interacting with the master and giving it updates 
+about the health of the worker node. The Worker node also has the container runtime (such as Docker installed on it).
+
+kubectl:- This is a cli utility used to deploy and manage applications inside a K8s cluster, to get cluster information, to get status
+of other nodes in the cluster and to manage many other things.

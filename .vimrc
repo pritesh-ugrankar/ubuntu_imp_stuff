@@ -1,0 +1,26 @@
+set nocompatible
+set nu
+syntax on
+filetype plugin indent on
+set hidden
+inoremap jk <ESC>
+set laststatus=2
+set autoindent
+set smartindent
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set showmatch
+set showmode
+set showcmd
+set ruler
+set backspace=2
+set backspace=indent,eol,start
+set tabstop=2
+
+"Sets the indent to 2 spaces after typing colon &  hitting <Enter>.
+set shiftwidth=2
+"This is extremely useful in k8s yaml file.
+
+set background=dark

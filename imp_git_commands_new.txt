@@ -1,0 +1,14 @@
+echo "# learngo" >> README.md
+git init
+#############################
+additional commands not given in github page.
+#############################
+git config user.name pritesh-ugrankar
+git config user.email pritesh.manohar.ugrankar@gmail.com
+#############################
+
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/pritesh-ugrankar/learngo.git
+git push -u origin main

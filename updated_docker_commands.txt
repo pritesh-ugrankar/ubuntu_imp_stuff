@@ -1,0 +1,250 @@
+#--------------------------------------------------------------------------------
+#########################DOCKER INSTALLATION#####################################
+#--------------------------------------------------------------------------------
+#Install Docker Engine:
+sudo apt-get remove docker docker-engine docker.io containerd runc
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+apt-cache madison docker-ce
+docker --version
+sudo groupadd docker
+sudo usermod -aG docker $USER
+#----------------------------------------------------------------------------------
+#Reboot and then you will be able to run the following commands:
+docker container ls -a
+docker container inspect
+docker container ls
+#----------------------------------------------------------------------------------
+#Install Docker Machine:
+https://github.com/docker/machine/releases
+Visit the page above and check for installation instructions for Linux.
+docker-machine version
+#----------------------------------------------------------------------------------
+#Install Docker Compose:
+sudo curl -L \
+"https://github.com/docker/compose/releases/download/1.28.2/docker-compose-$(uname -s)-$(uname -m)" \
+-o /usr/local/bin/docker-compose
+
+sudo chmod +x /usr/local/bin/docker-compose
+
+docker-compose version
+#----------------------------------------------------------------------------------
+#Download the Bret Fisher github repo for the course:
+git clone https://github.com/BretFisher/udemy-docker-mastery
+cd udemy-docker-mastery/
+#----------------------------------------------------------------------------------
+#Command to check docker version info in detail:
+
+#--------------------------------------------------------------------------------
+############################DOCKER COMMANDS#####################################
+#--------------------------------------------------------------------------------
+docker info
+#----------------------------------------------------------------------------------
+#Command to run a docker container, allocate internal port 8080 
+#and outgoing port 80, and run in a "detached" mode so we come back to the command prompt:
+#Note: This command will download the image if the image is not found. 
+
+docker container run --publish 8080:80 --detach nginx
+#NOTE: 8080 = HOST Port and 80 is the CONTAINER Port
+#----------------------------------------------------------------------------------
+#Check what docker instances are running:
+
+docker container ls
+#----------------------------------------------------------------------------------
+#Stop a running docker instance: \
+#(The "practical_wilbur" name is automatically assigned by Docker itself).
+
+docker container stop practical_wilbur 
+#----------------------------------------------------------------------------------
+#Check what docker instances are running INCLUDING the stopped and running instances:
+
+docker container ls -a
+#----------------------------------------------------------------------------------
+#Command to run a docker container, allocate internal port 8080 and outgoing port 80, run in a "detached" mode
+so we come back to the command prompt, AND give it a name "webhost":
+
+docker container run --publish 8080:80 --detach webhost nginx
+#----------------------------------------------------------------------------------
+#Check the logs for "webhost" container:
+
+docker container logs webhost 
+#----------------------------------------------------------------------------------
+#Check the detailed information for the "webhost" container & it's configuration:
+
+docker container inspect webhost
+#----------------------------------------------------------------------------------
+#Check the container performance statistics:
+
+docker container stats
+
+#Output will be following: NOTE - this is a LIVE (changing) output, e.g. like top
+#command.What is captured here is just 1 iteration.
+#CONTAINER ID   NAME           CPU %     MEM USAGE / LIMIT     MEM %     NET I/O       BLOCK I/O       PIDS
+#b8c37b87ab76   new_web_host   0.00%     4.105MiB / 7.551GiB   0.05%     14.7kB / 0B   0B / 8.19kB       2
+#7c2330ccb427   mongo          0.14%     59.63MiB / 7.551GiB   0.77%     19kB / 0B     8.19kB / 4.11MB   32
+
+#----------------------------------------------------------------------------------
+#The "top" command equivalent for docker container:
+
+docker container top webhost 
+#----------------------------------------------------------------------------------
+#Remove the Docker containers:
+
+docker container rm practical_wilbur ecstatic_hugle elegant_beaver gifted_proskuriakova 
+#----------------------------------------------------------------------------------
+#Run the docker container ls -a to double check if the desired containers are removed:
+
+docker container ls -a
+#----------------------------------------------------------------------------------
+#Remove RUNNING  Docker containers by force. You can also include stopped containers:
+
+docker container rm -f webhost reverent_newton funny_hodgkin relaxed_williamson 
+#----------------------------------------------------------------------------------
+#Check if right thing is done:
+
+docker container ls -a
+#----------------------------------------------------------------------------------
+#Check the running docker processes:
+#This command with also show the PORTs
+
+docker container ps
+
+#Output will be as shown below:
+
+#pritesh@pavilion:~$ docker container ps
+#CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                  NAMES
+#b8c37b87ab76   nginx     "/docker-entrypoint.…"   6 minutes ago    Up 6 minutes    0.0.0.0:8080->80/tcp   new_web_host
+#7c2330ccb427   mongo     "docker-entrypoint.s…"   12 minutes ago   Up 12 minutes   27017/tcp              mongo
+#----------------------------------------------------------------------------------
+#Following command output shows that docker is nothing but a process:
+#Note the use of "f" in ps command that shows a process "tree".
+
+#pritesh@pavilion:~$ ps -auxf | grep -E "(nginx|mongo)" | grep -v grep
+#999        13292  0.6  1.2 1582100 97668 ?       Ssl  14:07   0:04  \_ mongod --bind_ip_all
+#root       14154  0.0  0.0  10632  5956 ?        Ss   14:13   0:00  \_ nginx: master process nginx -g daemon off;
+#systemd+   14228  0.0  0.0  11028  2580 ?        S    14:13   0:00      \_ nginx: worker process
+#----------------------------------------------------------------------------------
+#Command to run (download if need be) a container and login to the container:
+
+docker container run -it --name proxy nginx bash
+
+#Another example:
+
+docker container run -it --name ubuntu ubuntu
+
+#NOTE- you will login as root to the CONTAINER ONLY, NOT THE WHOLE OS.
+#Also note, once you exit out of the container, it will STOP running.
+#So if you want to log back into the container (in our example, the "ubuntu" container)
+#run the following command:
+
+docker container start -ai ubuntu
+
+#The "a" means "attached", "i" means "interactive".
+#Notice how we DO NOT mention the --name here, because we are 
+#STARTING an existing container that already has a name.
+#Once you start a container with the -ai option, you will drop
+#at it's command prompt and be logged in as a root (FOR THAT
+#SPECIFIC CONTAINER ONLY). Once you run the commands and exit,
+#The container will stop again.
+
+#----------------------------------------------------------------------------------
+
+#To login to AN ALREADY RUNNING container, run the following command:
+docker container exec -it ubuntu bash
+
+#NOTE the bash after ubuntu. Without the "bash", THE EXEC COMMAND WILL FAIL!!
+#Also note - The "exec" command runs an ADDITIONAL PROCESS in a running container.
+#Therefore it has no effect on the root process of the container.
+
+#----------------------------------------------------------------------------------
+
+#The following command pulls the alpine linux  image from the docker repository.
+
+docker pull alpine
+
+#Run the docker image ls command to see how many images are there on your system.
+
+docker image ls
+
+#Given below is the output:
+#pritesh@pavilion:~$ docker image ls
+#REPOSITORY    TAG       IMAGE ID       CREATED         SIZE
+#mysql         latest    2933adc350f3   4 days ago      546MB
+#nginx         latest    298ec0e28760   4 days ago      133MB
+#alpine        latest    e50c909a8df2   2 weeks ago     5.61MB
+#mongo         latest    ca8e14b1fda6   3 weeks ago     493MB
+#ubuntu        latest    f63181f19b2f   3 weeks ago     72.9MB
+#hello-world   latest    bf756fb1ae65   13 months ago   13.3kB
+
+#--------------------------------------------------------------------------------
+#########################DOCKER NETWORKING######################################
+#--------------------------------------------------------------------------------
+#"Batteries included, but removable".
+#When you start a container, what's happening in the background is, you are 
+#connecting to a particular docker network, which is A VIRTUAL PRIVATE NETWORK
+#By default, the VIRTUAL PRIVATE NETWORK is called the "bridge"  or "docker0" network.
+#The "bridge" name shows up when you run the docker network ls command
+#The "docker0" name shows up when you run the ip addr command
+# 
+#Look at the docker network ls command output below:
+#pritesh@pavilion:~$ docker network ls
+#NETWORK ID     NAME      DRIVER    SCOPE
+#06859e1b023b   bridge    bridge    local
+#5e98d0ce2797   host      host      local
+#34fb9ac46860   none      null      local
+#######################################################################################
+#
+#Look at the ip addr command output below: 
+#pritesh@pavilion:~$ ip addr | grep docker0
+#4: docker0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+#    inet 172.17.0.1/16 brd 172.17.255.255 scope global docker0
+#8: vethab2e0a9@if7: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default 
+#10: veth647053f@if9: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue master docker0 state UP group default 
+#
+#Ofcourse, you can have more virtual private networks, but what ultimately happens
+#is each one of these routes out THROUGH A NAT FIREWALL to THE HOST IP.This is done
+#by the docker daemon configuring host ip address on it's default interface so that
+#your containes can get out to the internet or the rest of the network and get back.
+#BEST PRACTICE is to create a new virtual network for each app.
+#For example, you should have a virtual private network e.g.  "my_web_app" for 
+#mysql and php/apache containers and A SEPERATE Network (again a virtual private
+#network) e.g. "my_api" for mongo and nodejs containers. 
+
+#docker container run -p exposes the port ON YOUR MACHINE rather than using
+#the docker virtual network ports.
+#One container may have zero, one or many virtual private networks associated with them.
+
+#The docker container port command shows which ports are being used.
+#The docker container ls command shows the HOST_IP:PORT->CONTAINER_IP/PROTOCOL  
+#The docker container port command shows CONTAINER_IP/PROTOCOL->HOST_IP:PORT
+#See the example given below:
+#pritesh@pavilion:~$ docker container ls | grep nginx
+#b8c37b87ab76   nginx     "/docker-entrypoint.…"   5 hours ago   Up 5 hours   0.0.0.0:8080->80/tcp   new_web_host
+#
+#pritesh@pavilion:~$ docker container port new_web_host 
+#80/tcp -> 0.0.0.0:8080
+
+#Command to get a specific piece of information about the docker container:
+docker container inspect --format "{{.NetworkSettings.IPAddress}}" new_web_host
+#Note:- After the word "format", there's a double quote, then TWO opening curly
+#braces, then the actual setting name, then two closing curly braces, and then
+#another double quote.
+#
+#Command to create a new network:
+docker network create my_app_net
+
+#Connect a docker instance to the network created above:
+docker network connect my_app_net webhost
+#The above command will connect the my_app_net network to the instance named webhost
+
+docker network disconnect my_app_net webhost
+#The above command will disconnect the my_app_net network to the instance named webhost
+
+
+#--------------------------------------------------------------------------------
+#######CONTAINER LIFETIME & PERSISTENT DATA:VOLUMES,VOLUMES,VOLUMES!!!##########
+#--------------------------------------------------------------------------------
+#Containers are usually immutable (cannot be changed) and ephemeral(disposable)
+
+

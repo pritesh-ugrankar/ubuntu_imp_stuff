@@ -1,0 +1,40 @@
+#########################################################################################################################
+Install Kubernetes:
+sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+sudo apt install -y kubectl 
+#########################################################################################################################
+kubectl --version
+kubectl version
+minikube --version
+minikube version
+minikube --v
+minikube start
+minikube stop
+minikube start
+minikube docker-env
+minikube ip
+kubectl --version
+kubectl version
+kubectl version
+minikube version
+minikube status
+kubectl get all
+kubectl apply -f first-pod.yaml 
+kubectl get all
+minikube ip
+kubectl describe webapp
+kubectl describe pod webapp
+kubectl exec webapp ls
+kubectl exec webapp -- ls
+kubectl exec webapp -- ls -a
+kubectl exec webapp -- ls -lh
+kubectl exec webapp -- ls -lsht
+kubectl exec webapp -- sh -it
+kubectl exec -it webapp -- sh
+kubectl stop webapp
+kubectl status
+kubectl --help
+minikube stop
