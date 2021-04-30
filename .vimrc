@@ -1,26 +1,36 @@
 set nocompatible
 set nu
-syntax on
-filetype plugin indent on
+"Set pathogen
+"execute pathogen#infect()
+set relativenumber
 set hidden
-inoremap jk <ESC>
-set laststatus=2
+filetype plugin indent on
+set path+=**
+set noerrorbells
+set visualbell
 set autoindent
 set smartindent
-set ignorecase
-set smartcase
-set incsearch
-set hlsearch
-set showmatch
-set showmode
 set showcmd
-set ruler
+set showmode
+set showmatch
+set smartcase
+set hlsearch
+set incsearch
+set ignorecase
+set showbreak=»
+inoremap jk <ESC>
 set backspace=2
 set backspace=indent,eol,start
-set tabstop=2
 
-"Sets the indent to 2 spaces after typing colon &  hitting <Enter>.
 set shiftwidth=2
-"This is extremely useful in k8s yaml file.
+set softtabstop=4
 
-set background=dark
+set wildmenu
+set laststatus=2
+set encoding=utf-8
+set fileencodings=ucs-bom,utf-8,latin1
+set termencoding=utf-8
+scriptencoding utf-8
+setglobal fileencoding=utf-8
+nnoremap <left> :bprevious<CR>
+nnoremap <right> :bnext<CR>

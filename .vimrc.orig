@@ -24,6 +24,10 @@ filetype plugin indent on
 "set Numbers
 set nu
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Let the find command start searching from the root directory from where it's
+"invoked. You might have to turn off autochdir.
+set path+=**
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Dont crazy indent copy-pasted stuff in terminal vim.
 "Hit <F2> when in insert mode and paste. Hit <F2> again when done.
 set pastetoggle=<F2>
@@ -92,7 +96,7 @@ set hlsearch
 "Change the current working directory whenever you open a file, switch buffers,
 "delete a buffer or open/close a window.
 "Note: When this option is on some plugins MAY NOT work.
-set autochdir
+"set autochdir
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "important settings for line wrapping
 "do not remove these two lines below.
@@ -266,7 +270,6 @@ nnoremap <Right> :bnext<CR>
 inoremap jk <esc>:w<CR><ESC>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Painful settings disabling the arrow keys in INSERT mode" 
-"Map jk to escape in Normal Mode and save the file contents as well
 inoremap <left> <Nop>
 inoremap <Right> <Nop>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
